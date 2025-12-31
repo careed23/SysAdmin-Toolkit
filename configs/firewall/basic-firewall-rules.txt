@@ -1,0 +1,449 @@
+# BASIC FIREWALL BASELINE CONFIGURATION
+# Strategy: "Default Deny" (Zero Trust)
+# ------------------------------------------------------------------------------
+
+# 1. DEFAULT POLICIES
+# If traffic doesn't match a rule below, BLOCK it.
+INBOUND:  DROP (Deny All)
+FORWARD:  DROP (No Routing)
+OUTBOUND: ACCEPT (Allow All)
+
+# 2. ESSENTIAL INFRASTRUCTURE (Do Not Block)
+# Allow local loopback (localhost) communication
+ALLOW from 127.0.0.1 to 127.0.0.1 interface lo
+
+# Allow established connections (Don't break ongoing downloads)
+ALLOW state ESTABLISHED,RELATED
+
+# 3. REMOTE MANAGEMENT
+# SSH - Secure Shell (Critical: Restrict Source IP if possible)
+ALLOW TCP PORT 22
+
+# 4. PUBLIC SERVICES (Web Server)
+# HTTP - Unencrypted Web Traffic
+ALLOW TCP PORT 80
+# HTTPS - Encrypted Web Traffic
+ALLOW TCP PORT 443
+
+# 5. DIAGNOSTICS (ICMP/Ping)
+# Allow Ping (Echo Request) but rate-limit to prevent floods
+ALLOW ICMP Type 8 (Echo Request) LIMIT 1/second BURST 5
+
+# 6. COMMON OPTIONAL PORTS (Commented out by default)
+# RDP (Windows Remote Desktop) - DANGEROUS to open to public
+# ALLOW TCP PORT 3389
+
+# DNS (If this server is a DNS resolver)
+# ALLOW UDP PORT 53
+# ALLOW TCP PORT 53
+
+# SMTP (Email Server)
+# ALLOW TCP PORT 25
+# ALLOW TCP PORT 587
+
+# NTP (Time Sync)
+# ALLOW UDP PORT 123
+Project Finalization: The Master Build Script
+We have now generated every component of the SysAdmin Toolkit. It is a complete, deployable asset.
+
+I have compiled every file we discussed—including the Runbooks, Troubleshooting Guides, Best Practices, and Configs—into this single Master Build Script (init_repo.sh).
+
+Instructions:
+
+Create a file named init_repo.sh on your Linux/Mac machine (or WSL on Windows).
+
+Copy the code block below exactly.
+
+Run it: bash init_repo.sh.
+
+This will build the entire SysAdmin-Toolkit directory structure, populate all files, set permissions, and initialize Git.
+
+init_repo.sh
+Bash
+
+#!/bin/bash
+
+# Apex SysAdmin Toolkit - Master Build Script
+# Usage: bash init_repo.sh
+
+echo ">>> Initializing Apex SysAdmin Toolkit..."
+BASE_DIR="SysAdmin-Toolkit"
+
+# 1. Create Directory Structure
+echo ">>> Creating directories..."
+mkdir -p "$BASE_DIR/templates/documentation"
+mkdir -p "$BASE_DIR/configs"
+mkdir -p "$BASE_DIR/tools"
+mkdir -p "$BASE_DIR/reports"
+mkdir -p "$BASE_DIR/documentation/troubleshooting"
+mkdir -p "$BASE_DIR/documentation/best-practices"
+mkdir -p "$BASE_DIR/documentation/servers"
+mkdir -p "$BASE_DIR/runbooks"
+
+# ==============================================================================
+# SECTION A: TEMPLATES
+# ==============================================================================
+echo ">>> Generating Templates..."
+
+# Change Request Template
+cat << 'EOF' > "$BASE_DIR/templates/documentation/change-request-template.md"
+# IT Infrastructure Change Request (CR)
+
+| CR ID | Requestor | Date Submitted | Priority |
+| :--- | :--- | :--- | :--- |
+| CR-YYYY-MM-DD-001 | [Name] | YYYY-MM-DD | [Low/Med/High/Critical] |
+
+## 1. Summary of Change
+**Description:**
+> Briefly describe the change being implemented.
+
+**Justification:**
+> Why is this change necessary? (e.g., Security patch, Feature request, Bug fix)
+
+## 2. Implementation Plan
+**Affected Systems:**
+* [Server Name/IP]
+* [Service Name]
+
+**Detailed Steps:**
+1.  [Step 1]
+2.  [Step 2]
+3.  [Step 3]
+
+**Time Window:**
+* Start: [YYYY-MM-DD HH:MM]
+* End: [YYYY-MM-DD HH:MM]
+
+## 3. Risk and Impact Analysis
+* **Risk Level:** [Low/Medium/High]
+* **Potential Impact:** (e.g., Service downtime, latency)
+* **Rollback Plan:**
+    > Describe the exact steps to revert the changes if failure occurs.
+
+## 4. Approval
+| Name | Role | Status | Date |
+| :--- | :--- | :--- | :--- |
+| [Approver Name] | SysAdmin Lead | [Pending/Approved] | |
+EOF
+
+# System Documentation Template
+cat << 'EOF' > "$BASE_DIR/templates/documentation/system-documentation-template.md"
+# System Documentation: [Hostname]
+
+## 1. Overview
+* **Hostname:** `server-01`
+* **IP Address:** `192.168.x.x`
+* **OS/Version:** (e.g., Ubuntu 22.04 LTS)
+* **Primary Function:** (e.g., Web Server, Database, Load Balancer)
+
+## 2. Network Configuration
+| Interface | IP Address | Gateway | DNS |
+| :--- | :--- | :--- | :--- |
+| eth0 | 10.0.0.5 | 10.0.0.1 | 8.8.8.8 |
+
+## 3. Installed Services & Ports
+| Service Name | Port | Config Location | Status |
+| :--- | :--- | :--- | :--- |
+| Nginx | 80/443 | `/etc/nginx/` | Active |
+| SSH | 22 | `/etc/ssh/sshd_config` | Active |
+
+## 4. User Access & Permissions
+* **Sudoers:** `admin`, `deploy`
+* **SSH Key Auth Only:** [Yes/No]
+
+## 5. Maintenance Schedule
+* **Backup Schedule:** Daily at 02:00 UTC
+* **Patching Schedule:** Monthly (2nd Tuesday)
+EOF
+
+# ==============================================================================
+# SECTION B: CONFIGURATIONS
+# ==============================================================================
+echo ">>> Generating Configurations..."
+
+# SSH Hardened Config
+cat << 'EOF' > "$BASE_DIR/configs/sshd_config_hardened"
+# Secure SSH Configuration Baseline
+# Copy to /etc/ssh/sshd_config
+
+Port 22
+Protocol 2
+
+# Authentication
+PermitRootLogin no
+PubkeyAuthentication yes
+PasswordAuthentication no
+PermitEmptyPasswords no
+ChallengeResponseAuthentication no
+UsePAM yes
+X11Forwarding no
+
+# Timeout (Disconnect idle sessions after 5 mins)
+ClientAliveInterval 300
+ClientAliveCountMax 0
+
+# Banner
+Banner /etc/issue.net
+EOF
+
+# Basic Firewall Rules
+cat << 'EOF' > "$BASE_DIR/configs/basic-firewall-rules.txt"
+# BASIC FIREWALL BASELINE CONFIGURATION
+# Strategy: "Default Deny" (Zero Trust)
+
+INBOUND:  DROP (Deny All)
+FORWARD:  DROP (No Routing)
+OUTBOUND: ACCEPT (Allow All)
+
+# ALLOW Local Loopback
+ALLOW from 127.0.0.1 to 127.0.0.1
+
+# ALLOW Established Connections
+ALLOW state ESTABLISHED,RELATED
+
+# ALLOW Remote Management (SSH)
+ALLOW TCP PORT 22
+
+# ALLOW Web Traffic
+ALLOW TCP PORT 80 (HTTP)
+ALLOW TCP PORT 443 (HTTPS)
+
+# ALLOW Ping (Rate Limited)
+ALLOW ICMP Type 8 LIMIT 1/second BURST 5
+EOF
+
+# Bash Aliases
+cat << 'EOF' > "$BASE_DIR/configs/.bash_aliases_admin"
+# SysAdmin Shortcuts
+alias ll='ls -alF'
+alias update='sudo apt update && sudo apt upgrade -y'
+alias ports='netstat -tulanp'
+alias logs='tail -f /var/log/syslog'
+alias weblogs='tail -f /var/log/nginx/access.log'
+alias myip='curl ifconfig.me'
+EOF
+
+# ==============================================================================
+# SECTION C: TOOLS
+# ==============================================================================
+echo ">>> Generating Tools..."
+
+# System Health Check Script
+cat << 'EOF' > "$BASE_DIR/tools/system_health_check.sh"
+#!/bin/bash
+# Description: Quick system health check
+# Usage: ./system_health_check.sh
+
+echo "--- System Health Report: $(date) ---"
+echo "[DISK USAGE]"
+df -h | grep '^/dev/'
+echo ""
+echo "[MEMORY USAGE]"
+free -h
+echo ""
+echo "[CPU LOAD]"
+uptime
+echo ""
+echo "[FAILED SERVICES]"
+systemctl list-units --state=failed
+echo ""
+echo "[TOP MEMORY CONSUMERS]"
+ps -eo pid,ppid,cmd,%mem,%cpu --sort=-%mem | head -n 6
+echo "-----------------------------------"
+EOF
+
+# User Audit Script
+cat << 'EOF' > "$BASE_DIR/tools/user_audit.sh"
+#!/bin/bash
+# Description: Lists all users with sudo access and checks for empty passwords
+
+echo "--- User Security Audit ---"
+echo "[USERS WITH SUDO PRIVILEGES]"
+grep -Po '^sudo.+:\K.*$' /etc/group
+echo ""
+echo "[USERS WITH UID 0 (Root Privileges)]"
+awk -F: '($3 == 0) {print}' /etc/passwd
+echo ""
+echo "[CHECKING FOR EMPTY PASSWORDS]"
+sudo awk -F: '($2 == "") {print}' /etc/shadow
+if [ $? -eq 0 ]; then
+    echo "Scan complete."
+fi
+EOF
+
+chmod +x "$BASE_DIR/tools/"*.sh
+
+# ==============================================================================
+# SECTION D: REPORTS
+# ==============================================================================
+echo ">>> Generating Reports Placeholder..."
+
+cat << 'EOF' > "$BASE_DIR/reports/README.md"
+# Reports Directory
+This directory is the output destination for automated scripts located in `../tools/`.
+* Daily Health Checks: Retained for 30 days.
+* Security Audits: Retained for 1 year.
+EOF
+
+# ==============================================================================
+# SECTION E: DOCUMENTATION (TROUBLESHOOTING)
+# ==============================================================================
+echo ">>> Generating Troubleshooting Guides..."
+
+# Printer Issues
+cat << 'EOF' > "$BASE_DIR/documentation/troubleshooting/printer-common-issues.md"
+# Troubleshooting Guide: Common Printer Issues
+
+## 1. Initial Triage Checklist
+* [ ] Physical Check: Power/Paper?
+* [ ] Error Codes: Record code.
+* [ ] Connectivity: Ping IP?
+* [ ] Spooler: Restarted?
+
+## 2. Print Spooler Reset (Windows)
+```powershell
+net stop spooler
+del /Q /F /S "%systemroot%\System32\Spool\Printers\*.*"
+net start spooler
+EOF
+
+VoIP Issues
+cat << 'EOF' > "$BASE_DIR/documentation/troubleshooting/voip-troubleshooting.md"
+
+VoIP & SIP Troubleshooting SOP
+1. Golden Rule: Disable SIP ALG
+SIP ALG on the firewall is the #1 cause of one-way audio.
+
+2. Network Requirements
+Latency: < 150ms
+
+Jitter: < 30ms
+
+Packet Loss: < 1%
+
+3. Diagnostics
+Check SIP Port: nc -z -v -u [IP] 5060
+
+Trace Route: mtr -rwc 100 [IP] EOF
+
+Active Directory Issues
+cat << 'EOF' > "$BASE_DIR/documentation/troubleshooting/active-directory-issues.md"
+
+Troubleshooting Guide: Active Directory
+1. Account Lockouts
+Search-ADAccount -LockedOut | Select-Object Name, SamAccountName Check PDC Emulator Security Log (Event ID 4740).
+
+2. Replication Failures
+Check status: repadmin /showrepl /csv Force sync: repadmin /syncall /A /e /P EOF
+
+Network Issues
+cat << 'EOF' > "$BASE_DIR/documentation/troubleshooting/network-connectivity-issues.md"
+
+Troubleshooting Guide: Network Connectivity
+Methodology: OSI Model
+Layer 1: Link lights / Cable.
+
+Layer 2: ARP table (arp -a).
+
+Layer 3: Ping Loopback -> Local IP -> Gateway -> WAN IP (8.8.8.8).
+
+Layer 4: DNS (nslookup) and Ports (telnet). EOF
+
+==============================================================================
+SECTION F: DOCUMENTATION (BEST PRACTICES)
+==============================================================================
+echo ">>> Generating Best Practices..."
+
+Security Hardening
+cat << 'EOF' > "$BASE_DIR/documentation/best-practices/security-hardening-baseline.md"
+
+Security Hardening Baseline
+SSH: Keys only, no root login.
+
+Firewall: Default DENY ALL inbound.
+
+Services: Minimal install only. EOF
+
+Backup Strategy
+cat << 'EOF' > "$BASE_DIR/documentation/best-practices/backup-strategies.md"
+
+Backup Strategies
+The 3-2-1 Rule
+3 Copies, 2 Media Types, 1 Off-site.
+
+Rotation: GFS
+Grandfather (Monthly), Father (Weekly), Son (Daily). EOF
+
+Password Policy
+cat << 'EOF' > "$BASE_DIR/documentation/best-practices/password-policies.md"
+
+Password Policy
+Users: Min 12 chars. No complexity rules if length > 14.
+
+Admins: Min 16 chars + MFA Mandatory.
+
+Service Accounts: 25+ chars, stored in vault. EOF
+
+Patching Policy
+cat << 'EOF' > "$BASE_DIR/documentation/best-practices/patch-management-policy.md"
+
+Patch Management Policy
+Ring 0 (Dev): Immediate.
+
+Ring 1 (Staging): +24 Hours.
+
+Ring 2 (Production): +48 Hours.
+
+Critical Security: Apply within 48h regardless of ring. EOF
+
+Documentation Standards
+cat << 'EOF' > "$BASE_DIR/documentation/best-practices/documentation-standards.md"
+
+Documentation Standards
+Format: Markdown (.md).
+
+Tone: Active voice, concise.
+
+Structure: Context -> Steps -> Verification. EOF
+
+==============================================================================
+SECTION G: RUNBOOKS
+==============================================================================
+echo ">>> Generating Runbooks..."
+
+Incident Response
+cat << 'EOF' > "$BASE_DIR/runbooks/critical-incident-response.md"
+
+Critical Incident Response Playbook (SEV-1)
+Mobilize: Declare SEV-1. Assign Incident Commander.
+
+Contain: Stop bleeding (Rollback or Isolate).
+
+Recover: Restore service.
+
+Post-Mortem: 5 Whys analysis. EOF
+
+Server Maintenance
+cat << 'EOF' > "$BASE_DIR/runbooks/server-maintenance.md"
+
+Server Maintenance SOP (Monthly)
+Pre-Check: Verify Backups & Health.
+
+Execute: apt update && apt upgrade.
+
+Hygiene: Clean logs, docker prune.
+
+Reboot & Verify: Check services and public access. EOF
+
+Disaster Recovery
+cat << 'EOF' > "$BASE_DIR/runbooks/disaster-recovery.md"
+
+Disaster Recovery Plan
+Trigger: Physical site loss or Ransomware. Scenario A (Cloud): Provision new infrastructure -> Restore Immutable Backup. Scenario B (Ransomware): Build isolated "Clean Room" VLAN -> Restore -> Scan -> Reconnect. EOF
+
+==============================================================================
+SECTION H: GIT INIT
+==============================================================================
+echo ">>> Initializing Git..." cd "$BASE_DIR" || exit git init cat << 'EOF' > .gitignore .DS_Store reports/.log reports/.txt tmp/ EOF git add . git commit -m "Initial commit: Complete SysAdmin Toolkit (v1.0)"
+
+echo ">>> SUCCESS! SysAdmin Toolkit created in: $(pwd)"

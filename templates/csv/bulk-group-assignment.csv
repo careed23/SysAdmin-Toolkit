@@ -1,0 +1,71 @@
+Action,UserIdentifier,UserIdentifierType,GroupName,GroupIdentifierType,Priority,EffectiveDate,ExpirationDate,RequestedBy,TicketNumber,BusinessJustification,Notes
+Add,jsmith,SamAccountName,VPN-Users,Name,Normal,2024-01-15,,admin,INC001234,Remote work access required,New remote work arrangement approved
+Add,jsmith,SamAccountName,RemoteDesktop-Users,Name,Normal,2024-01-15,,admin,INC001234,Remote work access required,New remote work arrangement approved
+Add,jdoe,SamAccountName,HR-Managers,Name,Normal,2024-01-20,,hrmanager,CHG005678,Promotion to HR Manager role,Effective with promotion date
+Add,jdoe,SamAccountName,Payroll-Access,Name,Normal,2024-01-20,,hrmanager,CHG005678,Promotion to HR Manager role,Requires payroll system access
+Add,jdoe,SamAccountName,Benefits-Admin,Name,Normal,2024-01-20,,hrmanager,CHG005678,Promotion to HR Manager role,Benefits administration duties
+Remove,jdoe,SamAccountName,HR-Staff,Name,Normal,2024-01-20,,hrmanager,CHG005678,Promotion to HR Manager role,Moving from staff to manager group
+Add,rjohnson,SamAccountName,Finance-Managers,Name,High,2024-02-01,,cfo,CHG005679,Acting finance manager during leave,Temporary assignment - 3 months
+Add,rjohnson,SamAccountName,Budget-Approvers,Name,High,2024-02-01,2024-05-01,cfo,CHG005679,Acting finance manager during leave,Time-limited access
+Add,ewilliams,SamAccountName,Project-Alpha-Team,Name,Normal,2024-01-25,,projectmgr,PRJ000123,Assigned to Project Alpha,Cross-functional team assignment
+Add,mbrown,SamAccountName,Project-Alpha-Team,Name,Normal,2024-01-25,,projectmgr,PRJ000123,Assigned to Project Alpha,Sales representative for project
+Add,sdavis,SamAccountName,Project-Alpha-Team,Name,Normal,2024-01-25,,projectmgr,PRJ000123,Assigned to Project Alpha,Development resource
+Add,dmiller,SamAccountName,Project-Alpha-Team,Name,Normal,2024-01-25,,projectmgr,PRJ000123,Assigned to Project Alpha,Operations liaison
+Add,ctaylor,SamAccountName,Firewall-Admins,Name,High,2024-02-01,,itsecurity,SEC000456,Network security responsibilities,Security clearance verified
+Add,ctaylor,SamAccountName,Azure-Admins,Name,High,2024-02-01,,itsecurity,SEC000456,Cloud infrastructure management,Azure certification completed
+Add,ctaylor,SamAccountName,AWS-Admins,Name,High,2024-02-01,,itsecurity,SEC000456,Cloud infrastructure management,AWS certification completed
+Remove,ctaylor,SamAccountName,IT-Staff,Name,Normal,2024-02-01,,itsecurity,SEC000456,Role change to senior position,Moving to admin-level groups
+Add,ctaylor,SamAccountName,IT-Admins,Name,Normal,2024-02-01,,itsecurity,SEC000456,Senior network engineer role,Elevated privileges required
+Add,aanderson,SamAccountName,Compliance-Committee,Name,Normal,2024-02-15,,legal,LEG000789,Compliance oversight responsibilities,Annual compliance audit team
+Add,aanderson,SamAccountName,GDPR-Access,Name,Normal,2024-02-15,,legal,LEG000789,Data privacy responsibilities,GDPR compliance role
+Add,jthomas,SamAccountName,Production-Deploy,Name,High,2024-02-01,,devmanager,CHG005680,Production deployment access,DevOps engineer promotion
+Add,jthomas,SamAccountName,Database-Admins,Name,High,2024-02-01,,devmanager,CHG005680,Database management duties,DBA cross-training complete
+Add,jjackson,SamAccountName,Termination-Process,Name,High,2024-02-01,,hrdirector,HR000234,Employee offboarding responsibilities,HR manager duties
+Add,jjackson,SamAccountName,Background-Check,Name,High,2024-02-01,,hrdirector,HR000234,New hire processing,HR manager duties
+Add,dwhite,SamAccountName,AR-Access,Name,Normal,2024-02-15,,finmanager,FIN000345,Accounts receivable duties,Expanding accounting responsibilities
+Add,dwhite,SamAccountName,GL-Access,Name,Normal,2024-02-15,,finmanager,FIN000345,General ledger access,Month-end close procedures
+Add,aharris,SamAccountName,Social-Media-Publishers,Name,Normal,2024-02-01,,marketingmgr,MKT000456,Social media management,Content publication rights
+Add,aharris,SamAccountName,Brand-Assets,Name,Normal,2024-02-01,,marketingmgr,MKT000456,Brand content creation,Access to brand repository
+Add,mmartin,SamAccountName,Sales-Managers,Name,Normal,2024-02-15,,vpsales,SAL000567,Regional manager promotion,West region management
+Add,mmartin,SamAccountName,Discount-Approvers,Name,Normal,2024-02-15,,vpsales,SAL000567,Discount approval authority,Up to 25% discount authority
+Add,mmartin,SamAccountName,Commission-Reports,Name,Normal,2024-02-15,,vpsales,SAL000567,Commission management,Team commission oversight
+Remove,mmartin,SamAccountName,Sales-Staff,Name,Normal,2024-02-15,,vpsales,SAL000567,Role change to management,Transitioning to manager role
+Add,sgarcia,SamAccountName,Support-Managers,Name,Normal,2024-02-15,,vpoperations,OPS000678,Support team management,Team lead promotion
+Add,sgarcia,SamAccountName,Escalation-Queue,Name,Normal,2024-02-15,,vpoperations,OPS000678,Escalation handling,Tier 3 escalations
+Add,sgarcia,SamAccountName,Customer-Refunds,Name,Normal,2024-02-15,,vpoperations,OPS000678,Refund authorization,Up to $500 refund authority
+Add,amartinez,SamAccountName,Staging-Deploy,Name,Normal,2024-03-01,,qamanager,QA000789,Staging environment access,QA deployment responsibilities
+Add,amartinez,SamAccountName,Test-Data-Access,Name,Normal,2024-03-01,,qamanager,QA000789,Test data management,Anonymized data access only
+Add,nrobinson,SamAccountName,Executive-Calendars,Name,High,2024-03-01,,ceo,EXE000890,Executive calendar management,CEO assistant duties
+Add,nrobinson,SamAccountName,Board-Documents,Name,High,2024-03-01,,ceo,EXE000890,Board meeting support,Confidential access required
+Add,nrobinson,SamAccountName,Travel-Booking,Name,Normal,2024-03-01,,ceo,EXE000890,Executive travel arrangements,Corporate travel system
+Add,rclark,SamAccountName,Security-Admins,Name,High,2024-03-15,,ciso,SEC000901,Security operations,SOC analyst role
+Add,rclark,SamAccountName,SIEM-Admins,Name,High,2024-03-15,,ciso,SEC000901,SIEM management,Splunk administration
+Add,rclark,SamAccountName,Incident-Response,Name,High,2024-03-15,,ciso,SEC000901,IR team membership,On-call rotation
+Add,rclark,SamAccountName,Vulnerability-Scan,Name,High,2024-03-15,,ciso,SEC000901,Vulnerability management,Nessus/Qualys access
+Add,mrodriguez,SamAccountName,Creative-Cloud-Users,Name,Normal,2024-03-01,,designmgr,DES000012,Adobe Creative Cloud access,Design tool licensing
+Add,mrodriguez,SamAccountName,Figma-Editors,Name,Normal,2024-03-01,,designmgr,DES000012,Figma design access,UI/UX design work
+Add,EMP001,EmployeeID,All-Employees,Name,Low,2024-01-01,,system,AUTO,Standard employee group,Automated assignment
+Add,EMP002,EmployeeID,All-Employees,Name,Low,2024-01-01,,system,AUTO,Standard employee group,Automated assignment
+Add,EMP003,EmployeeID,All-Employees,Name,Low,2024-01-01,,system,AUTO,Standard employee group,Automated assignment
+Add,john.smith@company.com,Email,Newsletter-Internal,Name,Low,2024-01-01,,system,AUTO,Internal communications,Distribution list
+Add,jane.doe@company.com,Email,Newsletter-Internal,Name,Low,2024-01-01,,system,AUTO,Internal communications,Distribution list
+Add,tuser1,SamAccountName,Interns-Summer2024,Name,Normal,2024-06-01,2024-08-31,hrcoord,INT000123,Summer internship program,Time-limited membership
+Add,tuser2,SamAccountName,Interns-Summer2024,Name,Normal,2024-06-01,2024-08-31,hrcoord,INT000123,Summer internship program,Time-limited membership
+Add,contractor1,SamAccountName,External-Contractors,Name,Normal,2024-07-01,2024-12-31,procurement,PO-2024-0567,Contract engagement,SOW #2024-0567
+Add,contractor1,SamAccountName,Dev-ReadOnly,Name,Normal,2024-07-01,2024-12-31,devmanager,PO-2024-0567,Development support,Limited repository access
+Add,contractor2,SamAccountName,External-Contractors,Name,Normal,2024-08-01,2024-10-31,procurement,PO-2024-0890,Audit engagement,Annual audit support
+Add,contractor2,SamAccountName,Audit-ReadOnly,Name,Normal,2024-08-01,2024-10-31,finmanager,PO-2024-0890,Financial audit,Read-only financial data
+Remove,former.employee,SamAccountName,All-Employees,Name,High,2024-01-31,,hrsystem,TERM-2024-001,Employment termination,Automated offboarding
+Remove,former.employee,SamAccountName,VPN-Users,Name,High,2024-01-31,,hrsystem,TERM-2024-001,Employment termination,Automated offboarding
+Remove,former.employee,SamAccountName,Building-Access,Name,High,2024-01-31,,hrsystem,TERM-2024-001,Employment termination,Automated offboarding
+Add,CN=John Smith,DistinguishedName,CN=VPN-Users;OU=Security Groups;DC=company;DC=com,DistinguishedName,Normal,2024-01-15,,admin,INC001234,Remote access,Using DN format
+Add,S-1-5-21-1234567890-1234567890-1234567890-1001,SID,VPN-Users,Name,Normal,2024-01-15,,admin,INC001234,Remote access,Using SID format
+Add,IT-Team,GroupName,Shared-Printers,Name,Normal,2024-01-01,,admin,AUTO,Nested group membership,Group nesting for printer access
+Add,Finance-Team,GroupName,Shared-Printers,Name,Normal,2024-01-01,,admin,AUTO,Nested group membership,Group nesting for printer access
+Add,HR-Team,GroupName,Shared-Printers,Name,Normal,2024-01-01,,admin,AUTO,Nested group membership,Group nesting for printer access
+Verify,jsmith,SamAccountName,VPN-Users,Name,Normal,,,admin,AUD-2024-001,Quarterly access review,Q1 2024 audit
+Verify,jsmith,SamAccountName,RemoteDesktop-Users,Name,Normal,,,admin,AUD-2024-001,Quarterly access review,Q1 2024 audit
+Verify,ctaylor,SamAccountName,Firewall-Admins,Name,High,,,itsecurity,AUD-2024-001,Quarterly access review,Privileged access audit
+Verify,rclark,SamAccountName,Security-Admins,Name,High,,,itsecurity,AUD-2024-001,Quarterly access review,Privileged access audit
+Report,*,All,VPN-Users,Name,Normal,,,compliance,RPT-2024-001,VPN access report,Monthly access report
+Report,*,All,Domain Admins,Name,High,,,itsecurity,RPT-2024-001,Admin access report,Privileged access report

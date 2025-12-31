@@ -1,0 +1,117 @@
+# VLAN CONFIGURATION STANDARD & EXAMPLES
+# ------------------------------------------------------------------------------
+
+# 1. STANDARD VLAN SCHEMA
+# Do not use VLAN 1 (Default) for data. It is insecure.
+# ------------------------------------------------------------------------------
+VLAN 10:  Management (Switches, Routers, IPMI) - RESTRICTED
+VLAN 20:  Servers / Production Data
+VLAN 30:  Workstations / Employee Wi-Fi
+VLAN 40:  Voice (VoIP Phones)
+VLAN 99:  Guest / IoT (Untrusted - Internet Access Only)
+VLAN 666: Blackhole / Unused Ports (Shutdown)
+
+# ------------------------------------------------------------------------------
+# 2. CISCO IOS (SWITCH) CONFIGURATION
+# ------------------------------------------------------------------------------
+
+! A. Define VLANs
+conf t
+vlan 10
+ name MANAGEMENT
+vlan 20
+ name SERVERS
+vlan 40
+ name VOICE
+exit
+
+! B. Configure Access Port (End Device, e.g., PC or Printer)
+! Connects to a device that doesn't understand VLAN tags (Untagged)
+interface GigabitEthernet0/1
+ description User-PC
+ switchport mode access
+ switchport access vlan 30
+ spanning-tree portfast
+ no shutdown
+
+! C. Configure Voice Port (IP Phone + PC daisy-chained)
+interface GigabitEthernet0/2
+ description VoIP-Phone
+ switchport mode access
+ switchport access vlan 30  ! PC Data (Untagged)
+ switchport voice vlan 40   ! Voice Data (Tagged)
+ no shutdown
+
+! D. Configure Trunk Port (Uplink to Router/Switch)
+! Carries all VLANs (Tagged)
+interface GigabitEthernet0/24
+ description Uplink-to-Core
+ switchport trunk encapsulation dot1q
+ switchport mode trunk
+ switchport trunk native vlan 999 ! Security: Change Native VLAN from 1
+ switchport trunk allowed vlan 10,20,30,40,99
+ no shutdown
+
+# ------------------------------------------------------------------------------
+# 3. LINUX SERVER CONFIGURATION (Netplan / Ubuntu)
+# ------------------------------------------------------------------------------
+# /etc/netplan/01-netcfg.yaml
+
+network:
+  version: 2
+  renderer: networkd
+  ethernets:
+    eth0:
+      dhcp4: no  # Physical interface has no IP
+  vlans:
+    vlan10:
+      id: 10
+      link: eth0
+      addresses: [192.168.10.5/24]
+    vlan20:
+      id: 20
+      link: eth0
+      addresses: [10.0.0.5/24]
+
+# ------------------------------------------------------------------------------
+# 4. BEST PRACTICES CHEATSHEET
+# ------------------------------------------------------------------------------
+1. PRUNE TRUNKS: Never allow "ALL" VLANs on a trunk if not needed.
+   Allowed list = Minimal Attack Surface.
+2. NATIVE VLAN: Change Native VLAN from 1 to an unused ID (e.g., 999) to prevent "VLAN Hopping" attacks.
+3. UNUSED PORTS: Assign all unused ports to a "Parking VLAN" (e.g., 666) and run `shutdown`.
+Risk vs. Reward
+Risk: Lockout. Configuring the Management VLAN (VLAN 10) incorrectly on the trunk port can sever your connection to the switch immediately. Mitigation: Always use reload in 5 (reboot in 5 minutes) before applying VLAN changes remotely. If you get cut off, the switch reboots and reverts the config.
+
+Reward: Containment. If an IoT device on VLAN 99 gets hacked, the attacker cannot reach your Servers on VLAN 20. It creates internal firewalls without buying new hardware.
+
+Quick Add Command
+Run this in your terminal to create the file instantly:
+
+Bash
+
+cat << 'EOF' > SysAdmin-Toolkit/configs/vlan-configuration-example.txt
+# VLAN CONFIGURATION STANDARD & EXAMPLES
+
+# SCHEMA
+# VLAN 10: Management
+# VLAN 20: Servers
+# VLAN 30: Workstations
+# VLAN 40: Voice
+# VLAN 99: Guest/IoT
+
+# CISCO IOS EXAMPLES
+# Access Port:
+# switchport mode access
+# switchport access vlan 20
+
+# Trunk Port:
+# switchport mode trunk
+# switchport trunk allowed vlan 10,20,30,40,99
+
+# LINUX EXAMPLES (Netplan)
+# vlans:
+#   vlan20:
+#     id: 20
+#     link: eth0
+EOF
