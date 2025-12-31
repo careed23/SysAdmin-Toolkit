@@ -1,106 +1,75 @@
-# Apex SysAdmin Toolkit
+# SysAdmin Toolkit
 
 **Version:** 1.0.0
-**Maintainer:** [Your Name/Organization]
-**License:** MIT (Open Source)
+**License:** MIT
 
 ---
 
 ## 📖 Overview
-The **Apex SysAdmin Toolkit** is a battle-tested collection of scripts, configuration baselines, operational runbooks, and documentation templates. It is designed to standardize the "Chaos" of IT operations into a structured, repeatable, and secure engineering discipline.
+The **SysAdmin Toolkit** is a centralized repository of standardized scripts, configuration baselines, operational runbooks, and documentation templates. It is designed to establish a consistent, rigorous engineering discipline across IT infrastructure operations.
 
-This toolkit focuses on **Zero-Cost** implementation—leveraging native tools (Bash, PowerShell, Python) and open-source standards to achieve enterprise-grade reliability without enterprise-grade licensing fees.
+This toolkit serves as a portable "Swiss Army Knife" for Systems Administrators, Site Reliability Engineers (SREs), and Network Engineers, providing immediate access to validated tools for diagnostics, security hardening, and crisis management.
 
 ---
 
 ## 📂 Repository Structure
 
-### 1. 🛠 `tools/` (The Automation Engine)
-Scripts for diagnostics, auditing, and maintenance.
-* **`system_health_check.sh`**: (Linux) Instant snapshot of CPU, RAM, Disk, and Failed Services.
+### 1. 🛠 `tools/`
+Automated scripts for diagnostics, auditing, and maintenance tasks.
+* **`system_health_check.sh`**: (Linux) Generates an instant snapshot of CPU, RAM, Disk, and Failed Services.
 * **`system-info-collector.bat`**: (Windows) "Drop-and-run" health report for Windows Servers.
-* **`network-reset.bat`**: (Windows) The "Big Red Button" that resets the entire TCP/IP stack.
-* **`log-parser.ps1`**: (PowerShell) Regex-based log analysis tool (Poor man's Splunk).
-* **`bulk-rename.ps1`**: (PowerShell) Mass file sanitizer for data migrations.
+* **`network-reset.bat`**: (Windows) Automated utility to reset Winsock, TCP/IP stack, and flush DNS.
+* **`log-parser.ps1`**: (PowerShell) Regex-based log analysis tool for identifying error patterns and frequencies.
+* **`bulk-rename.ps1`**: (PowerShell) Mass file sanitization utility for data migrations and standardization.
 
-### 2. 📚 `documentation/` (The Knowledge Base)
-Standard Operating Procedures (SOPs) and Policies.
-* **`/troubleshooting`**: Guides for "High Volume" tickets (VoIP, Active Directory, Printers, Network).
-* **`/best-practices`**: Policy documents (Password Policy, Backup Strategy, Security Hardening).
-* **`/servers`**: Detailed documentation for specific production hosts.
+### 2. 📚 `documentation/`
+The knowledge base for Standard Operating Procedures (SOPs) and Policies.
+* **`/troubleshooting`**: SOPs for high-volume operational issues (VoIP, Active Directory, Printers, Network).
+* **`/best-practices`**: Definitive policy documents (Password Policy, Backup Strategy, Security Hardening Standards).
+* **`/servers`**: Repository for detailed, per-host documentation.
 
-### 3. 🚨 `runbooks/` (Crisis Management)
-Playbooks for high-stress scenarios.
-* **`critical-incident-response.md`**: SEV-1 Incident Command structure.
-* **`disaster-recovery.md`**: Protocols for total site failure or ransomware.
-* **`server-maintenance.md`**: Checklist for "Patch Tuesday" and routine maintenance.
+### 3. 🚨 `runbooks/`
+Playbooks for high-stress scenarios and routine maintenance.
+* **`critical-incident-response.md`**: SEV-1 Incident Command structure and workflow.
+* **`disaster-recovery.md`**: Protocols for catastrophic site failure, ransomware response, and "Clean Room" recovery.
+* **`server-maintenance.md`**: Checklist for routine patching ("Patch Tuesday") and system hygiene.
 
-### 4. ⚙️ `configs/` (The Baseline)
-Reference configurations for security and infrastructure.
-* **`sshd_config_hardened`**: Secure baseline for Linux SSH access.
-* **`switch-baseline-config.txt`**: Cisco IOS security template.
-* **`basic-firewall-rules.txt`**: Platform-agnostic port strategy.
-* **`vlan-configuration-example.txt`**: Standard network segmentation schema.
+### 4. ⚙️ `configs/`
+Reference configurations for security and infrastructure baselines.
+* **`sshd_config_hardened`**: Secure baseline configuration for Linux SSH access.
+* **`switch-baseline-config.txt`**: Cisco IOS security template (SSH-only, banner, logging).
+* **`basic-firewall-rules.txt`**: Platform-agnostic port strategy and "Default Deny" architecture.
+* **`vlan-configuration-example.txt`**: Standard network segmentation schema for securing Management, Voice, and Guest traffic.
 
-### 5. 📝 `templates/` (Standardization)
-Blank forms to ensure consistency.
-* **`change-request-template.md`**: Evaluation form for infrastructure changes.
-* **`system-documentation-template.md`**: The standard format for documenting a new server.
+### 5. 📝 `templates/`
+Standardized forms to ensure consistency in documentation.
+* **`change-request-template.md`**: Evaluation form for infrastructure changes, risk assessment, and rollback planning.
+* **`system-documentation-template.md`**: The standard format for documenting new server builds.
 
 ---
 
-## 🚀 Quick Start Guide
+## 🚀 Usage Guide
 
 ### Linux Health Check
 ```bash
 chmod +x tools/system_health_check.sh
 ./tools/system_health_check.sh
-Windows Network Reset
-Right-Click tools/network-reset.bat.
+Windows Network Stack Reset
+Navigate to the tools/ directory.
+
+Right-Click network-reset.bat.
 
 Select Run as Administrator.
 
-Follow the prompts to reset Winsock/TCP stacks.
+Follow the prompts to reset networking components and reboot.
 
-Deployment
-To initialize this directory structure on a new workstation, run the master build script (if available) or clone this repo:
+Log Analysis (PowerShell)
+PowerShell
 
-Bash
+.\tools\log-parser.ps1 -FilePath "C:\inetpub\logs\LogFiles\u_ex231201.log" -Pattern " 500 "
+🛡️ Security & Best Practices
+Review before Execution: Always review scripts before executing them in a production environment to ensure compatibility.
 
-git clone [https://github.com/careed23/SysAdmin-Toolkit.git](https://github.com/careed23/SysAdmin-Toolkit.git)
-🛡️ Security & Liability
-Review before Run: Always review scripts before executing them in a production environment.
+Credentials: Never commit passwords, API Keys, or Webhook URLs to this repository. Use Environment Variables or external secret management.
 
-Credentials: Never commit passwords, API Keys, or Webhook URLs to this repository. Use Environment Variables.
-
-"WhatIf": PowerShell tools in this repo support the -WhatIf switch to preview changes safely.
-
-🤝 Contributing
-Create a branch (git checkout -b feature/new-tool).
-
-Commit your changes.
-
-Open a Pull Request.
-
-Strict Rule: No hardcoded credentials allowed.
-
-Built with the Apex Methodology.
-
-
-### How to Apply This
-Since you are currently in the process of rebuilding/cleaning the repo:
-
-1.  **Create the file:**
-    ```bash
-    cat << 'EOF' > README.md
-    # Paste the content above here...
-    EOF
-    ```
-    *(Or just copy-paste it into your editor).*
-
-2.  **Add and Commit:**
-    ```bash
-    git add README.md
-    git commit -m "Docs: Add root README"
-    git push -u origin main
-    ```
+Safety Switches: PowerShell tools in this repo support the -WhatIf switch to preview changes safely without modifying data.
