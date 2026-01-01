@@ -54,7 +54,9 @@ Standardized forms to ensure consistency in documentation.
 ```bash
 chmod +x tools/system_health_check.sh
 ./tools/system_health_check.sh
+
 Windows Network Stack Reset
+
 Navigate to the tools/ directory.
 
 Right-Click network-reset.bat.
@@ -67,7 +69,11 @@ Log Analysis (PowerShell)
 PowerShell
 
 .\tools\log-parser.ps1 -FilePath "C:\inetpub\logs\LogFiles\u_ex231201.log" -Pattern " 500 "
+
+--------------------------------------------------------------------------------------------------------------------------------
+
 🛡️ Security & Best Practices
+ 
 Review before Execution: Always review scripts before executing them in a production environment to ensure compatibility.
 
 Credentials: Never commit passwords, API Keys, or Webhook URLs to this repository. Use Environment Variables or external secret management.
